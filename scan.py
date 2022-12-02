@@ -1,5 +1,6 @@
 from gtts import gTTS
 import os
+from tabulate import tabulate
 
 '''Aquí van todas las posibles alternativas para el lector.'''
 items = {"4005900618993":{"name":"Nivea Men Fresh",
@@ -22,6 +23,8 @@ items = {"4005900618993":{"name":"Nivea Men Fresh",
                             "precio":6},   
         }
 
+head = ["Codigo de barras", "Nombre", "Precio"]
+
 def Procedimiento():
     total_bill = 0
     bill = []
@@ -35,7 +38,6 @@ def Procedimiento():
         modo_auto="S_CMD_020F"
         end_code="0"
         if value == end_code:
-            
             break
         if value == modo_manual:
             print("Ahora estás en modo manual")
