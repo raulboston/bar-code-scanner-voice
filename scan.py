@@ -1,6 +1,5 @@
 from gtts import gTTS
 import os
-from tabulate import tabulate
 
 '''Aquí van todas las posibles alternativas para el lector.'''
 items = {"4005900618993":{"name":"Nivea Men Fresh",
@@ -22,8 +21,6 @@ items = {"4005900618993":{"name":"Nivea Men Fresh",
         "7500533001091":{"name":"Agua purificada",
                             "precio":6},   
         }
-
-head = ["Codigo de barras", "Nombre", "Precio"]
 
 def Procedimiento():
     total_bill = 0
@@ -60,9 +57,14 @@ def Procedimiento():
                 break
         else:
             print("Objeto no encontrado",value)
-    
+            '''add = int(input("Cantidad de articulos a ingresar: "))
+            if(add!=0):
+                from database import articulo
+            else:
+                Procedimiento()'''
+
     for i,item in enumerate(bill):
-        print(f"{i+1}. {item['name'],item['precio']}")
+         print(f"{i+1}. {item['name'],item['precio']}")
 
     '''en caso de existir menos de un articulo, no hará falta decir el precio final'''
     if contador>0:
@@ -74,19 +76,15 @@ def Procedimiento():
         os.system("start textTotal.mp3")
 
     '''lanzamiento de menu de inicio luego de finalizar un registro de articulos'''
-    print("escribe 1 para un nuevo registro \nescribe 2 para apagar o escanea el codigo")
-    goback = input();
-    start_code="1"
+    print("Ingresa cualquier texto para continuar \no escanea el codigo para apagar el escaner")
     finish = "^&041&^"
-    if goback == start_code:
+    goback = input();
+    if goback == finish:
+        continuar = False
+    else:
         continuar = True
         contador = 0
         Procedimiento()
-    if goback == finish or "2":
-        continuar = False
-    elif goback != finish and goback != start_code:
-        print("Ingresa un valor valido")
-        
 Procedimiento()
 
 
