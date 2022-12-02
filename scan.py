@@ -22,37 +22,69 @@ items = {"4005900618993":{"name":"Nivea Men Fresh",
                             "precio":6},   
         }
 
-total_bill = 0
-bill = []
-text="Hola"
-speech = gTTS(text= text, lang="es-us", slow=False)
-speech.save("texto1.mp3")
+def Procedimiento():
+    total_bill = 0
+    bill = []
+    contador = 0
+    continuar = True
 
-while True:
-    print("Escanea tu codigo de barras")
-    value = input();
-    end_code="fin"
-    if value == end_code:
-        print("Compra realizada")
-        break
-
-    for key in items.keys():
-        if key==value:
-            item = items[key]
-            print(f"Esto es: {item['name']}, El precio es: {item['precio']} pesos mexicanos")
-            text= (f"Esto es: {item['name']}, El precio es: {item['precio']} pesos mexicanos")
-            total_bill += item['precio']
-            bill.append(item)
-            language = "es-us"
-            speech = gTTS(text= text, lang=language, slow=False)
-            '''guarda el archivo mp3 y reproducirlo'''
-            speech.save("texto1.mp3")
-            os.system("start texto1.mp3")
+    while continuar == True:
+        print("Escanea tu codigo de barras")
+        value = input();
+        modo_manual="S_CMD_MT00"
+        modo_auto="S_CMD_020F"
+        end_code="0"
+        if value == end_code:
+            
             break
-    else:
-        print("Objeto no encontrado",value)
+        if value == modo_manual:
+            print("Ahora estás en modo manual")
+        if value == modo_auto:
+            print("Ahora estás en modo automatico")
 
-for i,item in enumerate(bill):
-    print(f"{i+1}. {item['name'],item['precio']}")
+        for key in items.keys():
+            if key==value:
+                item = items[key]
+                print(f"Esto es: {item['name']}, El precio es: {item['precio']} pesos mexicanos")
+                text= (f"Esto es: {item['name']}, El precio es: {item['precio']} pesos mexicanos")
+                total_bill += item['precio']
+                bill.append(item)
+                contador + 1
+                language = "es-us"
+                speech = gTTS(text= text, lang=language, slow=False)
+                '''guarda el archivo mp3 y reproducirlo'''
+                speech.save("texto1.mp3")
+                os.system("start texto1.mp3")
+                break
+        else:
+            print("Objeto no encontrado",value)
+    
+    for i,item in enumerate(bill):
+        print(f"{i+1}. {item['name'],item['precio']}")
 
-print(f'\nTu gasto total es de: ${total_bill} pesos mexicanos')
+    '''en caso de existir menos de un articulo, no hará falta decir el precio final'''
+    if contador>0:
+        print(f'\nTu gasto total es de: ${total_bill} pesos mexicanos')
+        textTotal= (f'\nTu gasto total es de: {total_bill} pesos mexicanos')
+        language = "es-us"
+        speech2 = gTTS(text= textTotal, lang=language, slow=False)
+        speech2.save("textTotal.mp3")
+        os.system("start textTotal.mp3")
+
+    '''lanzamiento de menu de inicio luego de finalizar un registro de articulos'''
+    print("escribe 1 para un nuevo registro \nescribe 2 para apagar o escanea el codigo")
+    goback = input();
+    start_code="1"
+    finish = "^&041&^"
+    if goback == start_code:
+        continuar = True
+        contador = 0
+        Procedimiento()
+    if goback == finish or "2":
+        continuar = False
+    elif goback != finish and goback != start_code:
+        print("Ingresa un valor valido")
+        
+Procedimiento()
+
+
